@@ -1,6 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
 #define MAX 
 #define NAME "name.txt"
 
+
+int soluz1(int** dist, int N); 
+void comb_sempl(int pos, int* sol, int k, int n, int start, int** dist, int* stop); 
+int ob1(int** dist, int N, int* sol, int k, int distMax); 
+
+void Soluz2(int** dist, int N, int* pop, int numStaz); 
+void comb_sempl_bis(int pos, int* sol, int k, int** dist, int* pop, float* bestQ, int numStaz, int N, int start, int** bestSol);
+void pm(int pos, int* val, int k, int** dist, int* pop, float* bestQ, int** bestSol, int* sol, int numStaz, int N); 
+float ob2(int* staz, int k, int N, int* dist, int* pop, int* sol); 
+int acc1(int* sol, int k, int numStaz, int* val); 
+int acc2(int* sol, int k, int numStaz, int* val);
+
+void CopiaSolInBestSol(int** bestSol, int* sol, int* val, int k); 
+
+
+int main(void)
+{
 	int distMax; 
 	int N; 
 
@@ -36,7 +57,8 @@
 	}
 	
 	free(sol); 
-	
+}
+
 int soluz1(int** dist, int N)
 {
 	int stop; 
@@ -96,7 +118,8 @@ int ob1(int** dist, int N, int* sol, int k, int distMax)
 	return 1; 
 }
 
-void Soluz2(            )
+
+void Soluz2(int** dist, int N, int* pop, int numStaz)
 {
 	int** bestSol = malloc(2*sizeof(int*)); 
 	bestSol[0] = malloc((N+1)*sizeof(int)); 
