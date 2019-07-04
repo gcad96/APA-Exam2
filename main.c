@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NAME "path/name.txt"
 #define MAX 900000.0
+#define M 5
+#define K 2
 
 
 int soluz1(int** dist, int N, int distMax);
@@ -23,78 +24,74 @@ void stampaBestSol(int** v);
 
 int main(void)
 {
-    int N;
-    int distMax, numStaz;
+    int N = M;
+    int distMax = 9;
+    int numStaz = 2;
 
     int i, j;
-
-    FILE* f;
-    if((f= fopen(NAME, "r"))==NULL)
-    {
-        fprintf(stderr, "Errore durante l'apertura del file.\n");
-        return 1;
-    }
-
-    fscanf(f, "%d", &N);
-
-    fscanf(f, "%d", &distMax);
-    fscanf(f, "%d", &numStaz);
 
     int** dist = malloc(N*sizeof(int*));
     for(i=0; i<N; i++)
     {
         dist[i] = malloc(N*sizeof(int));
-        for(j=0; j<N; j++)
-        {
-            fscanf(f, "%d", &(dist[i][j]));
-        }
     }
 
-    int* pop = malloc(N*sizeof(int));
-    for(i=0; i<N; i++)
-    {
-        fscanf(f, "%d", &pop[i]);
-    }
+    dist[0][0] = 0;
+    dist[0][1] = 8;
+    dist[0][2] = 10;
+    dist[0][3] = 7;
+    dist[0][4] = 12;
+    dist[1][0] = 8;
+    dist[1][1] = 0;
+    dist[1][2] = 7;
+    dist[1][3] = 9;
+    dist[1][4] = 11;
+    dist[2][0] = 10;
+    dist[2][1] = 7;
+    dist[2][2] = 0;
+    dist[2][3] = 10;
+    dist[2][4] = 9;
+    dist[3][0] = 7;
+    dist[3][1] = 9;
+    dist[3][2] = 10;
+    dist[3][3] = 0;
+    dist[3][4] = 8;
+    dist[4][0] = 12;
+    dist[4][1] = 11;
+    dist[4][2] = 9;
+    dist[4][3] = 8;
+    dist[4][4] = 0;
 
-    int* stazCom = malloc(N*sizeof(int));
-    for(i=0; i<N; i++)
-    {
-        fscanf(f, "%d", &stazCom[i]);
-    }
+    int pop[M] = {15, 5, 50, 30, 25};
 
-    //Lettura della proposta di allocazione delle risorse
-    int k;
-    fscanf(f, "%d", &k);
-    int* sol = malloc(k*sizeof(int));
-    for(i=0; i<k; i++)
-    {
-        fscanf(f, "%d", &sol[i]);
-    }
+    int stazCom[M] = {1,1,4,3,2};
 
-    fclose(f);
+    //Proposta di allocazione delle risorse
+    int k = K;
+    int sol[K] = {1,3};
 
 
+    printf("\n\nES1.\n");
     //Verifica delle condizioni imposte dalla funzione obiettivo1
     if(ob1(dist, N, sol, k, distMax))
     {
         printf("La soluzione proposta e' accettabile\n");
     }
+    else
+    {
+        printf("La soluzione proposta non e' accettabile\n");
+    }
 
+    printf("\n\nES2.\n");
     //Individuazione della soluzione ottima che rispetti i criteri della funzione obiettivo1
     if(!soluz1(dist, N, distMax))
     {
         printf("Nessuna soluzione e' accettabile\n");
     }
 
+    printf("\n\nES3.\n");
     //Individuazione della soluzione ottima che rispetti i criteri della funzione obiettivo2
     soluz2(dist, N, pop, numStaz, stazCom);
-
-    for(i=0; i<N; i++)
-        free(dist[i]);
-    free(dist);
-    free(pop);
-    free(stazCom);
-    free(sol);
 
     return 0;
 }
@@ -112,7 +109,7 @@ int soluz1(int** dist, int N, int distMax)
         if(stop)
         {
             printf("Numero minimo di stazioni e': %d\n", i);
-            printf("Localizzate in\n");
+            printf("Localizzate in   ");
             stampaSol(sol, i);
             return 1;
         }
