@@ -1,2 +1,3 @@
 # APA EXAM 2
-Tolta una condizione di pruning
+Correzione1
+Correzione2
