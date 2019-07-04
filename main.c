@@ -243,7 +243,7 @@ float ob2(int* staz, int k, int N, int** dist, int* pop, int* sol)
             if(dist[i][sol[j]] < min)
             {
                 min = dist[i][sol[j]];
-                num = staz[sol[j]];
+                num = staz[j];
             }
         }
         q += ( (float) pop[i] ) * min/num;
@@ -259,7 +259,7 @@ int acc1(int* sol, int k, int numStaz, int* val)
     int i;
     for(i=0; i<k; i++)
     {
-        c+=sol[val[i]];
+        c+=sol[i];
     }
 
     if(c<=numStaz)	return 1;
@@ -273,7 +273,7 @@ int acc2(int* sol, int k, int numStaz, int* val)
     int i;
     for(i=0; i<k; i++)
     {
-        c+=sol[val[i]];
+        c+=sol[i];
     }
 
     if(c!=numStaz)	return 0;
