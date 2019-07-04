@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
 
+#define NAME "path/name.txt"
 #define MAX 9
-#define NAME "name.txt"
 
 
 int soluz1(int** dist, int N, int distMax);
 void comb_sempl(int pos, int* sol, int k, int n, int start, int** dist, int* stop, int distMax);
 int ob1(int** dist, int N, int* sol, int k, int distMax);
 
-void Soluz2(int** dist, int N, int* pop, int numStaz, int* stazCom);
+void soluz2(int **dist, int N, int *pop, int numStaz, int *stazCom);
 void comb_sempl_bis(int pos, int* sol, int k, int** dist, int* pop, float* bestQ, int numStaz, int N, int start, int** bestSol, int* stazCom);
 void pm(int pos, int* val, int k, int** dist, int* pop, float* bestQ, int** bestSol, int* sol, int numStaz, int N, int* stazCom);
 float ob2(int* staz, int k, int N, int** dist, int* pop, int* sol);
@@ -24,15 +23,22 @@ void stampaBestSol(int** v);
 
 int main(void)
 {
-    int distMax;
     int N;
+    int distMax, numStaz;
 
     int i, j;
 
-    FILE* f = fopen(NAME, "r");
+    FILE* f;
+    if((f= fopen(NAME, "r"))==NULL)
+    {
+        fprintf(stderr, "Errore durante l'apertura del file.\n");
+        return 1;
+    }
+
+    fscanf(f, "%d", &N);
 
     fscanf(f, "%d", &distMax);
-    fscanf(f, "%d", &N);
+    fscanf(f, "%d", &numStaz);
 
     int** dist = malloc(N*sizeof(int*));
     for(i=0; i<N; i++)
@@ -44,6 +50,19 @@ int main(void)
         }
     }
 
+    int* pop = malloc(N*sizeof(int));
+    for(i=0; i<N; i++)
+    {
+        fscanf(f, "%d", &pop[i]);
+    }
+
+    int* stazCom = malloc(N*sizeof(int));
+    for(i=0; i<N; i++)
+    {
+        fscanf(f, "%d", &stazCom[i]);
+    }
+
+    //Lettura della proposta di allocazione delle risorse
     int k;
     fscanf(f, "%d", &k);
     int* sol = malloc(k*sizeof(int));
@@ -52,12 +71,32 @@ int main(void)
         fscanf(f, "%d", &sol[i]);
     }
 
+    fclose(f);
+
+
+    //Verifica delle condizioni imposte dalla funzione obiettivo1
     if(ob1(dist, N, sol, k, distMax))
     {
-        printf("Accettabile");
+        printf("La soluzione proposta e' accettabile\n");
     }
 
+    //Individuazione della soluzione ottima che rispetti i criteri della funzione obiettivo1
+    if(!soluz1(dist, N, distMax))
+    {
+        printf("Nessuna soluzione e' accettabile\n");
+    }
+
+    //Individuazione della soluzione ottima che rispetti i criteri della funzione obiettivo2
+    soluz2(dist, N, pop, numStaz, stazCom);
+
+    for(i=0; i<N; i++)
+        free(dist[i]);
+    free(dist);
+    free(pop);
+    free(stazCom);
     free(sol);
+
+    return 0;
 }
 
 int soluz1(int** dist, int N, int distMax)
@@ -120,7 +159,7 @@ int ob1(int** dist, int N, int* sol, int k, int distMax)
 }
 
 
-void Soluz2(int** dist, int N, int* pop, int numStaz, int* stazCom)
+void soluz2(int **dist, int N, int *pop, int numStaz, int *stazCom)
 {
     int** bestSol = malloc(2*sizeof(int*));
     bestSol[0] = malloc((N+1)*sizeof(int));
@@ -135,6 +174,11 @@ void Soluz2(int** dist, int N, int* pop, int numStaz, int* stazCom)
     }
 
     stampaBestSol(bestSol);
+
+    free(bestSol[0]);
+    free(bestSol[1]);
+    free(bestSol);
+
     free(sol);
 }
 
@@ -261,10 +305,22 @@ void copiaSolInBestSol(int** bestSol, int* sol, int* val, int k)
 
 void stampaSol(int* v, int dim)
 {
-
+    int i;
+    for(i=0; i<dim; i++)
+    {
+        printf("%d", v[i]);
+    }
+    printf("\n");
 }
 
 void stampaBestSol(int** v)
 {
+    int i;
+    printf("Soluzione:\n");
+    int dim = v[0][0];
 
+    for(i=1; i<=dim; i++)
+    {
+        printf("%d stazioni localizzate nel comune numero %d\n", v[0][i], v[1][i]);
+    }
 }
