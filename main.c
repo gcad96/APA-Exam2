@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
+#include <limits.h>
 
 #define NAME "path/name.txt"
 
@@ -168,7 +169,7 @@ void soluz2(int **dist, int N, int *pop, int numStaz, int *stazCom)
     int** bestSol = malloc(2*sizeof(int*));
     bestSol[0] = malloc((N+1)*sizeof(int));
     bestSol[1] = malloc((N+1)*sizeof(int)); /* in bestSol[i][0] si registra la dim della soluzione */
-    float bestQ = MAX;
+    float bestQ = FLT_MAX;
 
     int* sol = malloc(N*sizeof(int));
     int i;
@@ -240,7 +241,7 @@ float ob2(int* staz, int k, int N, int** dist, int* pop, int* sol)
     int i, j;
     for(i=0; i<N; i++)
     {
-        int min = MAX;
+        int min = INT_MAX;
         int num = 0;
         for(j=0; j<k; j++)
         {
