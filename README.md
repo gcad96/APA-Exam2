@@ -1,2 +1,2 @@
 # APA EXAM 2
-Lievissima modifica output
+Aggiunta uguale nel for
