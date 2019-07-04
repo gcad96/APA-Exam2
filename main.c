@@ -79,6 +79,10 @@ int main(void)
     {
         printf("La soluzione proposta e' accettabile\n");
     }
+    else
+    {
+        printf("La soluzione proposta non e' accettabile\n");
+    }
 
     //Individuazione della soluzione ottima che rispetti i criteri della funzione obiettivo1
     if(!soluz1(dist, N, distMax))
