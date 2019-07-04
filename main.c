@@ -3,7 +3,7 @@
 #include <float.h>
 #include <limits.h>
 
-#define NAME "path/name.txt"
+#define NAME "input.txt"
 
 
 int soluz1(int** dist, int N, int distMax);
