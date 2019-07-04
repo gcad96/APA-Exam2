@@ -216,7 +216,7 @@ void pm(int pos, int* val, int k, int** dist, int* pop, float* bestQ, int** best
         return;
     }
 
-    for(i=1; i<stazCom[val[pos]]; i++)
+    for(i=1; i<=stazCom[val[pos]]; i++)
     {
         if(acc1(sol, pos, numStaz, val)) //pruning
         {
