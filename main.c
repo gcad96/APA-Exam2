@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 #define NAME "path/name.txt"
-#define MAX 900000.0
 
 
 int soluz1(int** dist, int N, int distMax);
