@@ -307,7 +307,7 @@ void stampaSol(int* v, int dim)
     int i;
     for(i=0; i<dim; i++)
     {
-        printf("%d", v[i]);
+        printf("%d ", v[i]);
     }
     printf("\n");
 }
